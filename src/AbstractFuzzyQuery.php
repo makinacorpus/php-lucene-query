@@ -7,8 +7,14 @@ namespace MakinaCorpus\Lucene;
  */
 abstract class AbstractFuzzyQuery extends AbstractQuery
 {
+
     /**
-     * @var int
+     * Automatic fuzzy distance.
+     */
+    const FUZZY_AUTO = 'auto';
+
+    /**
+     * @var mixed
      */
     protected $fuzzyness;
 
@@ -16,14 +22,15 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
      * Set fuzzyness or roaming value, both uses the same operator, only the
      * type of data (phrase or term) on which you apply it matters
      * 
-     * @param int $fuzzyness
-     *   Positive integer or null to unset
+     * @param mixed $fuzzyness
+     *   Positive integer or null to unset. You may also pass in 'auto' to leave
+     *   the fuzzy distance up to the implementation.
      *
      * @return $this
      */
     public function setFuzzyness($fuzzyness)
     {
-        if ($fuzzyness != NULL && (! is_numeric($fuzzyness) || $fuzzyness < 0)) {
+        if ($fuzzyness != NULL && $fuzzyness != self::FUZZY_AUTO && (! is_numeric($fuzzyness) || $fuzzyness < 0)) {
             throw new \InvalidArgumentException("Fuzyness/roaming value must be a positive integer, " . print_r($fuzzyness, TRUE) . " given");
         }
 
@@ -68,7 +75,10 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
             $raw = $this->exclusion . $raw;
         } else {
             if (!empty($this->fuzzyness)) {
-                $raw .= '~' . $this->fuzzyness;
+                $raw .= '~';
+                if (is_integer($raw)) {
+                  $raw .= $this->fuzzyness;
+                }
             }
             if (!empty($this->boost)) {
                $raw .= '^' . $this->boost;
