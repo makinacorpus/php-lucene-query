@@ -76,10 +76,10 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
         } else {
             if (!empty($this->fuzzyness)) {
                 if ($this->fuzzyness === self::FUZZY_AUTO) {
-                  $raw = '~';
+                    $raw = '~';
                 }
                 else {
-                  $raw .= '~' . $this->fuzzyness;
+                    $raw .= '~' . $this->fuzzyness;
                 }
             }
             if (!empty($this->boost)) {
