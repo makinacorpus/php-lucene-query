@@ -80,6 +80,12 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
                 if ($this->fuzzyness === self::FUZZY_AUTO) {
                     $raw .= '~';
                 }
+                elseif (strpos($this->fuzzyness, self::FUZZY_AUTO . ':') === 0) {
+                    list ($low, $high) = explode(',', substr($this->fuzzyness, strlen(self::FUZZY_AUTO . ':')));
+                    $length = strlen($raw);
+                    $fuzzyness = $length < $low ? 0 : ($length >= $high ? 2 : 1);
+                    $raw .= '~' . $fuzzyness;
+                }
                 else {
                     $raw .= '~' . $this->fuzzyness;
                 }
