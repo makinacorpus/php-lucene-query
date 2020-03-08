@@ -30,7 +30,9 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
      */
     public function setFuzzyness($fuzzyness)
     {
-        if ($fuzzyness != NULL && $fuzzyness !== self::FUZZY_AUTO && (! is_numeric($fuzzyness) || $fuzzyness < 0)) {
+        if (!($fuzzyness == NULL || $fuzzyness === self::FUZZY_AUTO || (is_numeric($fuzzyness) && $fuzzyness >= 0)
+          || (strpos($fuzzyness, self::FUZZY_AUTO . ':') === 0 && is_numeric(str_replace(',', '', substr($fuzzyness, strlen(self::FUZZY_AUTO . ':')))))
+        )) {
             throw new \InvalidArgumentException("Fuzyness/roaming value must be a positive integer, " . print_r($fuzzyness, TRUE) . " given");
         }
 
@@ -77,6 +79,12 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
             if (!empty($this->fuzzyness)) {
                 if ($this->fuzzyness === self::FUZZY_AUTO) {
                     $raw .= '~';
+                }
+                elseif (strpos($this->fuzzyness, self::FUZZY_AUTO . ':') === 0) {
+                    list ($low, $high) = explode(',', substr($this->fuzzyness, strlen(self::FUZZY_AUTO . ':')));
+                    $length = strlen($raw);
+                    $fuzzyness = $length < $low ? 0 : ($length >= $high ? 2 : 1);
+                    $raw .= '~' . $fuzzyness;
                 }
                 else {
                     $raw .= '~' . $this->fuzzyness;
