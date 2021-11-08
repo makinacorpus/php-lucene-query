@@ -21,7 +21,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
     /**
      * Set fuzzyness or roaming value, both uses the same operator, only the
      * type of data (phrase or term) on which you apply it matters
-     * 
+     *
      * @param mixed $fuzzyness
      *   Positive integer or null to unset. You may also pass in 'auto' to leave
      *   the fuzzy distance up to the implementation.
@@ -41,7 +41,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
 
     /**
      * Alias for setFuzzyness() method
-     * 
+     *
      * @param int $roaming
      *   Positive integer
      *
@@ -63,7 +63,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
     {
         $raw = trim($this->toRawString());
 
-        if (!isset($raw) || ('' === $raw)) {
+        if ('' === $raw) {
             return '';
         }
 

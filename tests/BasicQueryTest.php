@@ -1,10 +1,13 @@
 <?php
-
-namespace MakinaCorpus\ElasticSearch\Tests;
+namespace MakinaCorpus\Lucene\Tests;
 
 use MakinaCorpus\Lucene\Query;
+use PHPUnit\Framework\TestCase;
 
-class BasicQueryTest extends \PHPUnit_Framework_TestCase
+/**
+ * @coversDefaultClass  \MakinaCorpus\Lucene\Query
+ */
+class BasicQueryTest extends TestCase
 {
     public function testSomeQuery()
     {

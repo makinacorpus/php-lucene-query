@@ -126,7 +126,7 @@ abstract class AbstractQuery
     {
         $raw = trim($this->toRawString());
 
-        if (!isset($raw) || (''===$raw)) {
+        if (''===$raw) {
             return '';
         }
 

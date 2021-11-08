@@ -122,7 +122,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function matchTerm($field = null, $term, $boost = null, $fuzzyness = null)
+    public function matchTerm($field = null, $term = null, $boost = null, $fuzzyness = null)
     {
         $this
             ->createTerm()
@@ -189,7 +189,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function requireTerm($field = null, $term)
+    public function requireTerm($field = null, $term = null)
     {
         $this
             ->createTerm()
@@ -209,7 +209,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function prohibitTerm($field = null, $term)
+    public function prohibitTerm($field = null, $term = null)
     {
         $this
             ->createTerm()
@@ -231,7 +231,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function matchTermCollection($field = null, $terms, $boost = null, $operator = self::OP_OR)
+    public function matchTermCollection($field = null, $terms = [], $boost = null, $operator = self::OP_OR)
     {
         if (!is_array($terms)) {
             $terms = [$terms];
@@ -258,7 +258,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function requireTermCollection($field = null, $terms, $operator = self::OP_OR)
+    public function requireTermCollection($field = null, $terms = [], $operator = self::OP_OR)
     {
         if (!is_array($terms)) {
             $terms = [$terms];
