@@ -7,37 +7,37 @@ class Query extends CollectionQuery
     /**
      * Require operator
      */
-    const OP_REQUIRE = '+';
+    public const OP_REQUIRE = '+';
 
     /**
      * Prohibit operator
      */
-    const OP_PROHIBIT = '-';
+    public const OP_PROHIBIT = '-';
 
     /**
      * Boost operator
      */
-    const OP_BOOST = '^';
+    public const OP_BOOST = '^';
 
     /**
      * Fuzzyness / roaming operator
      */
-    const OP_FUZZY_ROAMING = "~";
+    public const OP_FUZZY_ROAMING = "~";
 
     /**
      * And operator
      */
-    const OP_AND = 'AND';
+    public const OP_AND = 'AND';
 
     /**
      * Or operator
      */
-    const OP_OR = 'OR';
+    public const OP_OR = 'OR';
 
     /**
      * '*' wildcard
      */
-    const WILDCARD_ALL = '*';
+    public const WILDCARD_ALL = '*';
 
     /**
      * Create new term collection statement
@@ -129,8 +129,7 @@ class Query extends CollectionQuery
             ->setValue($term)
             ->setFuzzyness($fuzzyness)
             ->setBoost($boost)
-            ->setField($field)
-        ;
+            ->setField($field);
 
         return $this;
     }
@@ -151,8 +150,7 @@ class Query extends CollectionQuery
             ->createRange()
             ->setField($field)
             ->setInclusive($inclusive)
-            ->setRange($start, $stop)
-        ;
+            ->setRange($start, $stop);
 
         return $this;
     }
@@ -175,8 +173,7 @@ class Query extends CollectionQuery
             ->createDateRange()
             ->setInclusive($inclusive)
             ->setRange($start, $stop)
-            ->setField($field)
-        ;
+            ->setField($field);
 
         return $this;
     }
@@ -195,8 +192,7 @@ class Query extends CollectionQuery
             ->createTerm()
             ->setValue($term)
             ->setExclusion(self::OP_REQUIRE)
-            ->setField($field)
-        ;
+            ->setField($field);
 
         return $this;
     }
@@ -215,8 +211,7 @@ class Query extends CollectionQuery
             ->createTerm()
             ->setValue($term)
             ->setField($field)
-            ->setExclusion(self::OP_PROHIBIT)
-        ;
+            ->setExclusion(self::OP_PROHIBIT);
 
         return $this;
     }
@@ -242,8 +237,7 @@ class Query extends CollectionQuery
             ->addAll($terms)
             ->setOperator($operator)
             ->setField($field)
-            ->setBoost($boost)
-        ;
+            ->setBoost($boost);
 
         return $this;
     }
@@ -269,8 +263,7 @@ class Query extends CollectionQuery
             ->addAll($terms)
             ->setOperator($operator)
             ->setField($field)
-            ->setExclusion(self::OP_REQUIRE)
-        ;
+            ->setExclusion(self::OP_REQUIRE);
 
         return $this;
     }

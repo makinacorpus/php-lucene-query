@@ -10,7 +10,7 @@ abstract class AbstractQuery
     /**
      * Regex that matches all Lucene query syntax reserved chars
      */
-    const RE_SPECIALS = '/\+|-|&|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|\:|\\\/';
+    public const RE_SPECIALS = '/\+|-|&|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|\:|\\\/';
 
     /**
      * Add '"' chars if necessary to a token value, and escape Lucene query

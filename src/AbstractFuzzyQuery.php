@@ -11,7 +11,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
     /**
      * Automatic fuzzy distance.
      */
-    const FUZZY_AUTO = 'auto';
+    public const FUZZY_AUTO = 'auto';
 
     /**
      * @var mixed
@@ -30,8 +30,10 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
      */
     public function setFuzzyness($fuzzyness)
     {
-        if ($fuzzyness != null && $fuzzyness !== self::FUZZY_AUTO && (! is_numeric($fuzzyness) || $fuzzyness < 0)) {
-            throw new \InvalidArgumentException("Fuzyness/roaming value must be a positive integer, " . print_r($fuzzyness, true) . " given");
+        if ($fuzzyness != null && $fuzzyness !== self::FUZZY_AUTO && (!is_numeric($fuzzyness) || $fuzzyness < 0)) {
+            throw new \InvalidArgumentException(
+                sprintf("Fuzyness/roaming value must be a positive integer, %s given", $fuzzyness)
+            );
         }
 
         $this->fuzzyness = $fuzzyness;
