@@ -126,7 +126,7 @@ abstract class AbstractQuery
     {
         $raw = trim($this->toRawString());
 
-        if (''===$raw) {
+        if ('' === $raw) {
             return '';
         }
 
@@ -136,7 +136,7 @@ abstract class AbstractQuery
 
         if ($this->exclusion) {
             $raw = $this->exclusion . $raw;
-        } else if ($this->boost) {
+        } elseif ($this->boost) {
             $raw .= '^' . $this->boost;
         }
 

@@ -24,7 +24,7 @@ class RangeQuery extends AbstractQuery
 
     /**
      * Set inclusive or exclusive mode
-     * 
+     *
      * @param boolean $inclusive
      *   Set to true for inclusive mode, false for exclusive mode
      *
@@ -39,10 +39,10 @@ class RangeQuery extends AbstractQuery
 
     /**
      * Construct a range statement
-     * 
+     *
      * If you build the object with both $start and $stop set to NULL, this
      * statement won't been built at all in the final query.
-     * 
+     *
      * We can, but we won't send [* TO *] useless range.
      *
      * @param null|mixed $start
