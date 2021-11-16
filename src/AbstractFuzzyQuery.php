@@ -11,7 +11,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
     /**
      * Automatic fuzzy distance.
      */
-    const FUZZY_AUTO = 'auto';
+    public const FUZZY_AUTO = 'auto';
 
     /**
      * @var mixed
@@ -21,7 +21,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
     /**
      * Set fuzzyness or roaming value, both uses the same operator, only the
      * type of data (phrase or term) on which you apply it matters
-     * 
+     *
      * @param mixed $fuzzyness
      *   Positive integer or null to unset. You may also pass in 'auto' to leave
      *   the fuzzy distance up to the implementation.
@@ -30,8 +30,10 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
      */
     public function setFuzzyness($fuzzyness)
     {
-        if ($fuzzyness != NULL && $fuzzyness !== self::FUZZY_AUTO && (! is_numeric($fuzzyness) || $fuzzyness < 0)) {
-            throw new \InvalidArgumentException("Fuzyness/roaming value must be a positive integer, " . print_r($fuzzyness, TRUE) . " given");
+        if ($fuzzyness != null && $fuzzyness !== self::FUZZY_AUTO && (!is_numeric($fuzzyness) || $fuzzyness < 0)) {
+            throw new \InvalidArgumentException(
+                sprintf("Fuzyness/roaming value must be a positive integer, %s given", $fuzzyness)
+            );
         }
 
         $this->fuzzyness = $fuzzyness;
@@ -41,7 +43,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
 
     /**
      * Alias for setFuzzyness() method
-     * 
+     *
      * @param int $roaming
      *   Positive integer
      *
@@ -63,7 +65,7 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
     {
         $raw = trim($this->toRawString());
 
-        if (!isset($raw) || ('' === $raw)) {
+        if ('' === $raw) {
             return '';
         }
 
@@ -77,13 +79,12 @@ abstract class AbstractFuzzyQuery extends AbstractQuery
             if (!empty($this->fuzzyness)) {
                 if ($this->fuzzyness === self::FUZZY_AUTO) {
                     $raw .= '~';
-                }
-                else {
+                } else {
                     $raw .= '~' . $this->fuzzyness;
                 }
             }
             if (!empty($this->boost)) {
-               $raw .= '^' . $this->boost;
+                $raw .= '^' . $this->boost;
             }
         }
 

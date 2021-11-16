@@ -7,37 +7,37 @@ class Query extends CollectionQuery
     /**
      * Require operator
      */
-    const OP_REQUIRE = '+';
+    public const OP_REQUIRE = '+';
 
     /**
      * Prohibit operator
      */
-    const OP_PROHIBIT = '-';
+    public const OP_PROHIBIT = '-';
 
     /**
      * Boost operator
      */
-    const OP_BOOST = '^';
+    public const OP_BOOST = '^';
 
     /**
      * Fuzzyness / roaming operator
      */
-    const OP_FUZZY_ROAMING = "~";
+    public const OP_FUZZY_ROAMING = "~";
 
     /**
      * And operator
      */
-    const OP_AND = 'AND';
+    public const OP_AND = 'AND';
 
     /**
      * Or operator
      */
-    const OP_OR = 'OR';
+    public const OP_OR = 'OR';
 
     /**
      * '*' wildcard
      */
-    const WILDCARD_ALL = '*';
+    public const WILDCARD_ALL = '*';
 
     /**
      * Create new term collection statement
@@ -122,15 +122,14 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function matchTerm($field = null, $term, $boost = null, $fuzzyness = null)
+    public function matchTerm($field = null, $term = null, $boost = null, $fuzzyness = null)
     {
         $this
             ->createTerm()
             ->setValue($term)
             ->setFuzzyness($fuzzyness)
             ->setBoost($boost)
-            ->setField($field)
-        ;
+            ->setField($field);
 
         return $this;
     }
@@ -151,8 +150,7 @@ class Query extends CollectionQuery
             ->createRange()
             ->setField($field)
             ->setInclusive($inclusive)
-            ->setRange($start, $stop)
-        ;
+            ->setRange($start, $stop);
 
         return $this;
     }
@@ -175,8 +173,7 @@ class Query extends CollectionQuery
             ->createDateRange()
             ->setInclusive($inclusive)
             ->setRange($start, $stop)
-            ->setField($field)
-        ;
+            ->setField($field);
 
         return $this;
     }
@@ -189,14 +186,13 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function requireTerm($field = null, $term)
+    public function requireTerm($field = null, $term = null)
     {
         $this
             ->createTerm()
             ->setValue($term)
             ->setExclusion(self::OP_REQUIRE)
-            ->setField($field)
-        ;
+            ->setField($field);
 
         return $this;
     }
@@ -209,14 +205,13 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function prohibitTerm($field = null, $term)
+    public function prohibitTerm($field = null, $term = null)
     {
         $this
             ->createTerm()
             ->setValue($term)
             ->setField($field)
-            ->setExclusion(self::OP_PROHIBIT)
-        ;
+            ->setExclusion(self::OP_PROHIBIT);
 
         return $this;
     }
@@ -231,7 +226,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function matchTermCollection($field = null, $terms, $boost = null, $operator = self::OP_OR)
+    public function matchTermCollection($field = null, $terms = [], $boost = null, $operator = self::OP_OR)
     {
         if (!is_array($terms)) {
             $terms = [$terms];
@@ -242,8 +237,7 @@ class Query extends CollectionQuery
             ->addAll($terms)
             ->setOperator($operator)
             ->setField($field)
-            ->setBoost($boost)
-        ;
+            ->setBoost($boost);
 
         return $this;
     }
@@ -258,7 +252,7 @@ class Query extends CollectionQuery
      *
      * @return $this
      */
-    public function requireTermCollection($field = null, $terms, $operator = self::OP_OR)
+    public function requireTermCollection($field = null, $terms = [], $operator = self::OP_OR)
     {
         if (!is_array($terms)) {
             $terms = [$terms];
@@ -269,8 +263,7 @@ class Query extends CollectionQuery
             ->addAll($terms)
             ->setOperator($operator)
             ->setField($field)
-            ->setExclusion(self::OP_REQUIRE)
-        ;
+            ->setExclusion(self::OP_REQUIRE);
 
         return $this;
     }

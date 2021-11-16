@@ -10,7 +10,7 @@ abstract class AbstractQuery
     /**
      * Regex that matches all Lucene query syntax reserved chars
      */
-    const RE_SPECIALS = '/\+|-|&|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|\:|\\\/';
+    public const RE_SPECIALS = '/\+|-|&|\||!|\(|\)|\{|\}|\[|\]|\^|"|~|\*|\?|\:|\\\/';
 
     /**
      * Add '"' chars if necessary to a token value, and escape Lucene query
@@ -126,7 +126,7 @@ abstract class AbstractQuery
     {
         $raw = trim($this->toRawString());
 
-        if (!isset($raw) || (''===$raw)) {
+        if ('' === $raw) {
             return '';
         }
 
@@ -136,7 +136,7 @@ abstract class AbstractQuery
 
         if ($this->exclusion) {
             $raw = $this->exclusion . $raw;
-        } else if ($this->boost) {
+        } elseif ($this->boost) {
             $raw .= '^' . $this->boost;
         }
 
