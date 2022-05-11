@@ -3,11 +3,13 @@
 namespace MakinaCorpus\Lucene\Tests;
 
 use DateTime;
+use MakinaCorpus\Lucene\AbstractQuery;
 use MakinaCorpus\Lucene\Query;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass  \MakinaCorpus\Lucene\Query
+ * @coversDefaultClass  \MakinaCorpus\Lucene\AbstractQuery
  */
 class BasicQueryTest extends TestCase
 {
@@ -38,5 +40,35 @@ class BasicQueryTest extends TestCase
             trim((string)$query)
         );
         // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * @covers \MakinaCorpus\Lucene\AbstractQuery::escapeToken
+     */
+    public function testSpecialCharacterEscaping()
+    {
+        // @codingStandardsIgnoreStart
+        $test_strings = [
+            'Use the "~" symbol to add boost to your fields!' => 'Use the \"\~\" symbol to add boost to your fields\!',
+            'Some date formats are: \"(30/12/1993), {30-12-1993} & [30\\12\\1993]\"' => 'Some date formats are\: \\\\\"\(30\/12\/1993\), \{30\-12\-1993\} \& \[30\\\12\\\1993\]\\\\\"',
+            'one + one = two' => 'one \+ one \= two',
+            'if (something || (something_else && another_something))' => 'if \(something \|\| \(something_else \&\& another_something\)\)',
+            'Here is a cat: ^*>.<*^!!' => 'Here is a cat\: \^\*\>.\<\*\^\!\!',
+            'Couldn\'t you come up with better test Strings? ... NO, sorry!' => 'Couldn\'t you come up with better test Strings\? ... NO, sorry\!',
+        ];
+        // @codingStandardsIgnoreEnd
+
+        // Assert strings with characters that should be escaped.
+        foreach ($test_strings as $input => $expected) {
+            $this->assertEquals("\"$expected\"", AbstractQuery::escapeToken($input));
+        }
+        // Assert single word without characters that should be escaped.
+        $this->assertEquals('Word', AbstractQuery::escapeToken('Word'));
+        // Assert phrase without characters that should be escaped.
+        $this->assertEquals('"Random search phrase."', AbstractQuery::escapeToken('Random search phrase.'));
+        /** Assert single word without characters that should be escaped, using @param $force = true. */
+        $this->assertEquals('"Word"', AbstractQuery::escapeToken('Word', TRUE));
+        // Assert string without spaces, with characters that should be escaped.
+        $this->assertEquals('"\!\*Test.php, \*.php"', AbstractQuery::escapeToken('!*Test.php, *.php'));
     }
 }
