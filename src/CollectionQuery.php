@@ -21,6 +21,7 @@ class CollectionQuery extends AbstractQuery implements
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->elements);
@@ -29,6 +30,7 @@ class CollectionQuery extends AbstractQuery implements
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->elements);
