@@ -7,7 +7,7 @@ Elastic Search and Apache SolR.
 # Examples
 
 ```php
-use new MakinaCorpus\Lucene\Query;
+use MakinaCorpus\Lucene\Query;
 
 $query = new Query();
 
