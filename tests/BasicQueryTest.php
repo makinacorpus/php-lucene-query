@@ -4,6 +4,7 @@ namespace MakinaCorpus\Lucene\Tests;
 
 use MakinaCorpus\Lucene\AbstractQuery;
 use MakinaCorpus\Lucene\Query;
+use MakinaCorpus\Lucene\TermQuery;
 use PHPUnit\Framework\TestCase;
 use DateTime;
 
@@ -42,6 +43,52 @@ class BasicQueryTest extends TestCase
             trim((string)$query)
         );
         // @codingStandardsIgnoreEnd
+    }
+
+    public function testDocumentationIssue7Legacy()
+    {
+        $query = new Query();
+        $query->setOperator(Query::OP_AND);
+
+        $query->createTerm()->setField('field 1')->setValue('abc');
+        $query->createTerm()->setField('field 2')->setValue(123);
+
+        $query
+            ->createTermCollection(Query::OP_OR)
+            ->add(
+                (new TermQuery())
+                    ->setField('field 3')
+                    ->setValue('a')
+            )
+            ->add(
+                (new TermQuery())
+                    ->setField('field 3')
+                    ->setValue('b')
+            )
+        ;
+
+        self::assertSame(
+            '("field 1":abc AND "field 2":123 AND ("field 3":a OR "field 3":b))',
+            \trim((string) $query)
+        );
+    }
+
+    public function testDocumentationIssue7()
+    {
+        $query = new Query();
+        $query->setOperator(Query::OP_AND);
+
+        $query->createTerm()->setField('field 1')->setValue('abc');
+        $query->createTerm()->setField('field 2')->setValue(123);
+
+        $or = $query->createTermCollection(Query::OP_OR);
+        $or->createTerm()->setField('field 3')->setValue('a');
+        $or->createTerm()->setField('field 3')->setValue('b');
+
+        self::assertSame(
+            '("field 1":abc AND "field 2":123 AND ("field 3":a OR "field 3":b))',
+            \trim((string) $query)
+        );
     }
 
     public function dataSpecialCharacterEscaping()

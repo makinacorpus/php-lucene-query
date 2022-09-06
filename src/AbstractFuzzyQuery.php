@@ -7,7 +7,6 @@ namespace MakinaCorpus\Lucene;
  */
 abstract class AbstractFuzzyQuery extends AbstractQuery
 {
-
     /**
      * Automatic fuzzy distance.
      */
