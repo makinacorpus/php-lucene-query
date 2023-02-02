@@ -110,6 +110,23 @@ class BasicQueryTest extends TestCase
         );
     }
 
+    public function testDocumentationIssue9()
+    {
+        $query = new Query();
+        $collection = $query->createTermCollection();
+
+        $collection->requireTerm(null, 'foo');
+        $collection->prohibitTerm(null, 'bar');
+        $collection->matchTermCollection(null, ['fizz', 'buzz']);
+
+        $collection->requireTermCollection(null, ['a', 'b']);
+
+        self::assertSame(
+            '(+foo AND -bar AND (fizz OR buzz) AND +(a OR b))',
+            \trim((string) $query)
+        );
+    }
+
     public function dataSpecialCharacterEscaping()
     {
         return [

@@ -186,7 +186,7 @@ class CollectionQuery extends AbstractQuery implements
         $this
             ->createTerm()
             ->setValue($term)
-            ->setExclusion(self::OP_REQUIRE)
+            ->setExclusion(Query::OP_REQUIRE)
             ->setField($field);
 
         return $this;
@@ -206,7 +206,7 @@ class CollectionQuery extends AbstractQuery implements
             ->createTerm()
             ->setValue($term)
             ->setField($field)
-            ->setExclusion(self::OP_PROHIBIT);
+            ->setExclusion(Query::OP_PROHIBIT);
 
         return $this;
     }
@@ -221,7 +221,7 @@ class CollectionQuery extends AbstractQuery implements
      *
      * @return $this
      */
-    public function matchTermCollection($field = null, $terms = [], $boost = null, $operator = self::OP_OR)
+    public function matchTermCollection($field = null, $terms = [], $boost = null, $operator = Query::OP_OR)
     {
         if (!is_array($terms)) {
             $terms = [$terms];
@@ -247,7 +247,7 @@ class CollectionQuery extends AbstractQuery implements
      *
      * @return $this
      */
-    public function requireTermCollection($field = null, $terms = [], $operator = self::OP_OR)
+    public function requireTermCollection($field = null, $terms = [], $operator = Query::OP_OR)
     {
         if (!is_array($terms)) {
             $terms = [$terms];
@@ -258,7 +258,7 @@ class CollectionQuery extends AbstractQuery implements
             ->addAll($terms)
             ->setOperator($operator)
             ->setField($field)
-            ->setExclusion(self::OP_REQUIRE);
+            ->setExclusion(Query::OP_REQUIRE);
 
         return $this;
     }

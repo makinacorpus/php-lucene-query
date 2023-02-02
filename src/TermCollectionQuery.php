@@ -16,7 +16,7 @@ class TermCollectionQuery extends CollectionQuery
      */
     public function add($element)
     {
-        if ($element instanceof TermQuery) {
+        if ($element instanceof AbstractQuery) {
             parent::add($element);
         } else {
             parent::add(
