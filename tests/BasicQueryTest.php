@@ -73,7 +73,26 @@ class BasicQueryTest extends TestCase
         );
     }
 
-    public function testDocumentationIssue7()
+    public function testDocumentationIssue7Best()
+    {
+        $query = new Query();
+        $query->setOperator(Query::OP_AND);
+
+        $query->createTerm()->setField('field 1')->setValue('abc');
+        $query->createTerm()->setField('field 2')->setValue(123);
+
+        $or = $query->createTermCollection(Query::OP_OR);
+        $or->setField("field 3");
+        $or->createTerm()->setValue('a');
+        $or->createTerm()->setValue('b');
+
+        self::assertSame(
+            '("field 1":abc AND "field 2":123 AND "field 3":(a OR b))',
+            \trim((string) $query)
+        );
+    }
+
+    public function testDocumentationIssue7Possible()
     {
         $query = new Query();
         $query->setOperator(Query::OP_AND);
